@@ -421,21 +421,10 @@ Confidence: 0.9996
 
 ```text
 MonReader/
-│
-├── data/
-│   ├── training/
-│   │   ├── flip/
-│   │   └── notflip/
-│   │
-│   └── testing/
-│       ├── flip/
-│       └── notflip/
-│
-├── notebooks/
-│   ├── MonReaderTraining.ipynb
-│   └── MonReaderTrainingTest.ipynb
-│
-├── best_monreader_model.pth
+├── MonReaderTraining.ipynb
+├── MonReaderTrainingTest.ipynb
+├── MonReaderTraining.py
+├── MonReaderTraingTest.py
 ├── README.md
 
 ```
