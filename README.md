@@ -1,30 +1,32 @@
 # MonReader – Book Page Flip Classification
 
-## Overview
+## 📖 Overview
 
-MonReader is a computer vision project that uses deep learning to classify images of a book page into two categories:
+**MonReader** is a computer vision project that uses deep learning to classify images of a book page into two categories:
 
-- **flip** – the page is being flipped
-- **notflip** – the page is not being flipped
+* **flip** – the page is being flipped
+* **notflip** – the page is not being flipped
 
-The project uses PyTorch and a pretrained EfficientNet-B0 model to perform binary image classification.
+The project uses **PyTorch** and a pretrained **EfficientNet-B0** model to perform binary image classification through transfer learning.
 
-The notebook covers the complete machine learning workflow:
+The notebook demonstrates an end-to-end machine learning workflow, from dataset exploration and preprocessing to model training, evaluation, and image-level prediction.
+
+### Workflow
 
 1. Dataset loading
-2. Dataset exploration and visualization
+2. Exploratory data analysis
 3. Image validation
 4. Image preprocessing
 5. Data augmentation
-6. PyTorch Dataset and DataLoader creation
+6. PyTorch `Dataset` and `DataLoader` creation
 7. Transfer learning with EfficientNet-B0
 8. Model training
 9. Model evaluation
-10. Model prediction on individual images
+10. Individual image prediction
 
 ---
 
-## Dataset
+## 📂 Dataset
 
 The dataset is organized into separate training and testing directories:
 
@@ -38,124 +40,209 @@ data/
     ├── flip/
     └── notflip/
 ```
-Dataset Size
 
-The notebook reports:
+### Dataset Size
 
-Dataset	Number of Images
-Training	2,392
-Testing	597
-Total	2,989
-Class Distribution
-Training
-Class	Images
-notflip	1,230
-flip	1,162
-Testing
-Class	Images
-notflip	307
-flip	290
+| Dataset   | Number of Images |
+| --------- | ---------------: |
+| Training  |            2,392 |
+| Testing   |              597 |
+| **Total** |        **2,989** |
 
-The classes are relatively well balanced.
+### Class Distribution
 
-The notebook also verifies the image dimensions and reports that all images have the same size:
+#### Training Set
 
-Width: 1080 pixels
-Height: 1920 pixels
-Unique image sizes: 1
-Corrupted images: 0
+| Class     |    Images |
+| --------- | --------: |
+| `notflip` |     1,230 |
+| `flip`    |     1,162 |
+| **Total** | **2,392** |
 
-These dataset statistics are directly reported by the notebook.
+#### Testing Set
 
-Exploratory Data Analysis
+| Class     |  Images |
+| --------- | ------: |
+| `notflip` |     307 |
+| `flip`    |     290 |
+| **Total** | **597** |
 
-The notebook performs an initial inspection of the dataset, including:
+The two classes are relatively well balanced in both the training and testing datasets.
 
-Displaying sample images
-Examining class distributions
-Checking image dimensions
-Checking for corrupted images
-Comparing the training and testing datasets
+### Image Validation
 
-This provides an overview of the data before model training.
+The notebook validates the image files and reports:
 
-Image Preprocessing
+| Property           | Result       |
+| ------------------ | ------------ |
+| Image width        | 1,080 pixels |
+| Image height       | 1,920 pixels |
+| Unique image sizes | 1            |
+| Corrupted images   | 0            |
+
+All images have a consistent resolution, and no corrupted images were detected.
+
+---
+
+## 🔍 Exploratory Data Analysis
+
+Before model training, the notebook performs an initial exploration of the dataset.
+
+The analysis includes:
+
+* Displaying sample images
+* Examining class distributions
+* Checking image dimensions
+* Detecting corrupted images
+* Comparing training and testing datasets
+
+This provides an overview of the dataset and helps verify that the images are suitable for model training.
+
+---
+
+## 🖼️ Image Preprocessing
 
 The original images have dimensions of:
 
-1080 × 1920
+```text
+1080 × 1920 pixels
+```
 
-The images are processed before being passed to the neural network.
+Images are processed before being passed to the neural network.
 
-The preprocessing pipeline includes resizing the images and converting them into tensors suitable for PyTorch.
+The preprocessing pipeline includes:
+
+* Resizing images to the input dimensions required by EfficientNet-B0
+* Converting images into PyTorch tensors
+* Normalizing image data
+
+### Data Augmentation
 
 Training images additionally undergo image augmentation to improve the model's ability to generalize to variations in the input images.
 
-Data Loading
+Augmentation helps reduce overfitting by exposing the model to modified versions of the training images.
 
-A custom PyTorch dataset is used to load the images and their corresponding labels.
+---
+
+## 📦 Data Loading
+
+A custom PyTorch `Dataset` is used to load images and their corresponding labels.
 
 Each sample contains:
 
-filename
-label
-filepath
+* Filename
+* Label
+* Filepath
 
-The labels correspond to:
+The class labels are encoded as:
 
-flip    → 1
+```text
 notflip → 0
+flip    → 1
+```
 
-The training and testing data are then loaded using PyTorch DataLoaders.
+The training and testing data are then loaded using PyTorch `DataLoader` objects.
 
-Model
+This enables efficient batching and iteration during model training and evaluation.
 
-The project uses EfficientNet-B0 as the underlying image classification model.
+---
 
-EfficientNet-B0 is initialized with pretrained weights and then adapted for the two-class MonReader classification problem.
+## 🧠 Model
 
-The final classification layer is modified so that the model produces two outputs:
+The project uses **EfficientNet-B0** as the underlying image classification architecture.
 
+EfficientNet-B0 is initialized with pretrained weights and adapted for the two-class MonReader classification problem.
+
+### Transfer Learning
+
+Instead of training a convolutional neural network from scratch, the project uses **transfer learning**.
+
+The pretrained EfficientNet-B0 model provides visual features learned from a large image dataset. The final classification layer is modified to specialize the model for the MonReader task.
+
+The model produces two output classes:
+
+```text
 0 → notflip
 1 → flip
+```
 
-This approach uses transfer learning, allowing the model to take advantage of visual features learned from a larger image dataset while adapting the final classifier to the MonReader task.
+This approach allows the model to leverage previously learned visual representations while adapting to the specific requirements of book-page classification.
 
-Training
+---
 
-The model is trained using PyTorch.
+## 🏋️ Model Training
 
-The training process consists of:
+The model is trained using **PyTorch**.
 
-Loading a batch of training images
-Applying image transformations
-Passing the images through EfficientNet-B0
-Calculating the classification loss
-Performing backpropagation
-Updating the model weights
-Evaluating the model on the testing dataset
+The training workflow consists of:
 
-Model performance is monitored during training to determine the best-performing model.
+```text
+Training Images
+      ↓
+Image Transformations
+      ↓
+DataLoader
+      ↓
+EfficientNet-B0
+      ↓
+Classification Loss
+      ↓
+Backpropagation
+      ↓
+Weight Updates
+      ↓
+Model Evaluation
+```
 
-Evaluation
+During training, the model:
 
-The notebook evaluates the trained model using classification metrics including:
+1. Loads a batch of training images.
+2. Applies the required image transformations.
+3. Passes the images through EfficientNet-B0.
+4. Calculates the classification loss.
+5. Performs backpropagation.
+6. Updates the model weights.
+7. Evaluates performance on the testing dataset.
 
-Accuracy
-Precision
-Recall
-F1 score
-Confusion matrix
-Classification report
+Model performance is monitored during training to identify the best-performing model.
 
-These metrics provide a more complete picture of model performance than accuracy alone.
+---
 
-Prediction
+## 📊 Model Evaluation
+
+The trained model is evaluated using multiple classification metrics rather than relying solely on accuracy.
+
+The notebook includes:
+
+* **Accuracy**
+* **Precision**
+* **Recall**
+* **F1 Score**
+* **Confusion Matrix**
+* **Classification Report**
+
+These metrics provide a more comprehensive assessment of how well the model distinguishes between `flip` and `notflip` images.
+
+### Evaluation Metrics
+
+| Metric                | Purpose                                                   |
+| --------------------- | --------------------------------------------------------- |
+| Accuracy              | Percentage of correctly classified images                 |
+| Precision             | Proportion of predicted positive cases that are correct   |
+| Recall                | Proportion of actual positive cases correctly identified  |
+| F1 Score              | Harmonic mean of precision and recall                     |
+| Confusion Matrix      | Shows correct and incorrect predictions by class          |
+| Classification Report | Provides a detailed summary of classification performance |
+
+---
+
+## 🔮 Prediction
 
 The notebook also includes functionality for making predictions on individual images.
 
-The prediction workflow:
+The prediction workflow is:
 
+```text
 Input Image
      ↓
 Resize / Preprocessing
@@ -165,3 +252,104 @@ EfficientNet-B0
 Class Prediction
      ↓
 flip / notflip
+```
+
+The model takes an unseen image, applies the same preprocessing used during training, and predicts whether the page is being flipped.
+
+---
+
+## 🛠️ Technologies Used
+
+* **Python**
+* **PyTorch**
+* **Torchvision**
+* **EfficientNet-B0**
+* **Pandas**
+* **NumPy**
+* **Matplotlib**
+* **Scikit-learn**
+* **Pillow**
+
+---
+
+## 📁 Project Structure
+
+A typical project structure is:
+
+```text
+MonReader/
+│
+├── data/
+│   ├── training/
+│   │   ├── flip/
+│   │   └── notflip/
+│   │
+│   └── testing/
+│       ├── flip/
+│       └── notflip/
+│
+├── notebooks/
+│   └── MonReader.ipynb
+│
+├── README.md
+└── requirements.txt
+```
+
+---
+
+## 🚀 Getting Started
+
+### 1. Clone the Repository
+
+```bash
+git clone <repository-url>
+cd MonReader
+```
+
+### 2. Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### 3. Prepare the Dataset
+
+Place the dataset under the `data/` directory using the following structure:
+
+```text
+data/
+├── training/
+│   ├── flip/
+│   └── notflip/
+│
+└── testing/
+    ├── flip/
+    └── notflip/
+```
+
+### 4. Run the Notebook
+
+Launch Jupyter Notebook:
+
+```bash
+jupyter notebook
+```
+
+Then open:
+
+```text
+notebooks/MonReader.ipynb
+```
+
+Run the notebook cells sequentially to reproduce the data exploration, preprocessing, model training, evaluation, and prediction workflow.
+
+---
+
+## 🎯 Project Objective
+
+The primary objective of MonReader is to develop a deep learning model capable of automatically identifying whether a book page is **being flipped** or **not being flipped** from an image.
+
+By combining image preprocessing, data augmentation, and transfer learning with EfficientNet-B0, the project demonstrates an end-to-end approach to solving a real-world binary image classification problem.
+
+
+
