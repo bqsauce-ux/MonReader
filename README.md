@@ -437,62 +437,8 @@ MonReader/
 │
 ├── best_monreader_model.pth
 ├── README.md
-└── requirements.txt
+
 ```
-
----
-
-## 🚀 Getting Started
-
-### 1. Clone the Repository
-
-```bash
-git clone <repository-url>
-cd MonReader
-```
-
-### 2. Install Dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
-### 3. Prepare the Dataset
-
-Place the dataset under the `data/` directory:
-
-```text
-data/
-├── training/
-│   ├── flip/
-│   └── notflip/
-│
-└── testing/
-    ├── flip/
-    └── notflip/
-```
-
-### 4. Run the Notebook
-
-Launch Jupyter Notebook:
-
-```bash
-jupyter notebook
-```
-
-Open either notebook:
-
-```text
-notebooks/MonReaderTraining.ipynb
-```
-
-or:
-
-```text
-notebooks/MonReaderTrainingTest.ipynb
-```
-
-Run the notebook cells sequentially to reproduce the data exploration, preprocessing, model training, evaluation, and prediction workflow.
 
 ---
 
