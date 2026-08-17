@@ -132,12 +132,6 @@ def evaluate():
         )
     )
 
-
-
-
-DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
-
-DEVICE = "cuda" if torch.cuda.is_available() else "cpu" # determines whether PyTorch should use a GPU or CPU
 EPOCHS = 10 # one epoch pass through the entire training dataset.
 LR = 1e-4 # learning rate controls how aggressively the optimizer changes the model's weights
 
