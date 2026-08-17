@@ -37,7 +37,7 @@ data/
 └── testing/
     ├── flip/
     └── notflip/
-
+```
 Dataset Size
 
 The notebook reports:
